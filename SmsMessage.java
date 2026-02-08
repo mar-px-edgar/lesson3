@@ -13,11 +13,22 @@ public class SmsMessage extends Message {
         super(sender, phoneNumber, text);
     }
 
+
+    private boolean isNumeric() {
+        if (recipient == null || recipient.isEmpty()) { return false; }
+        for (int i = 1; i < recipient.length(); i++) {
+            if (!Character.isDigit(recipient.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean isValid() {
         return super.isValid()
                 && recipient.startsWith("+")
-                && recipient.isNumeric()
+                && isNumeric()
                 && text.length() <= MAX_LENGTH;
     }
 

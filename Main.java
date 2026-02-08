@@ -5,7 +5,8 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        NotificationService service = new NotificationService();
+        MessageRepo repo = new MessageRepo();
+        NotificationService service = new NotificationService(repo);
 
         Message m1 = service.create(NotificationType.EMAIL, "alice@example.com",
                 "bob@example.com", "Hello Alice!");
@@ -51,34 +52,3 @@ public class Main {
         }
     }
 }
-/*
-SENDING...
-EMAIL
-Fom: alice@example.com
-To: bob@example.com
-Subject: No subject
-
-Hello Alice!
-
-SENDING...
-SMS from +37120000000 to +37112345678: Hi from SMS
-
-Sent (varargs): 2
-SENDING...
-SMS from +37121111111 to +37122222222: Short msg
-
-Sent (collection): 1
-Total sent:3
-Total sent per type:
-email=1
-sms=2
-
-Sent messages:
-
-Of type EMAIL:
-  EmailMessage{, }createdAt=2026-02-07T11:02:17.573634, sender='alice@example.com', recipient='bob@example.com'}, subject='No subject'}
-
-Of type SMS:
-  SmsMessage{, }createdAt=2026-02-07T11:02:17.574634200, sender='+37120000000', recipient='+37112345678'}
-  SmsMessage{, }createdAt=2026-02-07T11:02:17.596553100, sender='+37121111111', recipient='+37122222222'}
- */

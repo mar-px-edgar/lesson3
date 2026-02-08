@@ -39,18 +39,8 @@ public class Message {
 
     // Переопределяем в наследниках при желании (но уже ок и так)
     public boolean isValid() {
-        return recipient != null && !recipient.isBlank() && recipient.isNumeric()
+        return recipient != null && !recipient.isBlank()
                 && text != null && !text.isBlank();
-    }
-
-    private boolean isNumeric() {
-        if (recipient == null || recipient.isEmpty()) { return false; }
-        for (int i = 1; i < recipient.length(); i++) {
-            if (!Character.isDigit(recipient.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override

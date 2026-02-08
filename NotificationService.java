@@ -4,16 +4,10 @@ import java.util.*;
 
 public class NotificationService {
 
-    private int totalSent = 0;
+    private final MessageRepo repository;
 
-    // Хранилище “отправленных”
-    private final Map<NotificationType, List<Message>> sentMessages = new HashMap<>();
-
-    public NotificationService() {
-        // Инициализация статистики (чтобы не было null)
-        for (NotificationType notificationType : NotificationType.values()) {
-            sentMessages.put(notificationType, new ArrayList<>());
-        }
+    public NotificationService(MessageRepo repository) {
+        this.repository = Objects.requireNonNull(repository, "repository");
     }
 
     // switch + фабрика
@@ -45,9 +39,7 @@ public class NotificationService {
         // “Отправка” (условная)
         System.out.println("SENDING...\n" + message.format() + "\n");
 
-        sentMessages.get(type).add(message);
-
-        totalSent++;
+        repository.save(message);
 
         return true;
     }
@@ -69,16 +61,15 @@ public class NotificationService {
     }
 
     public List<Message> getSentMessages(NotificationType notificationType) {
-        return Collections.unmodifiableList(sentMessages.get(notificationType));
+        return repository.findByType(notificationType);
     }
 
     public int getTotalSent() {
-        return totalSent;
+        return repository.total();
     }
 
     public int getSentCount(NotificationType type) {
-        // безопасно, т.к. инициализировали в конструкторе
-        return sentMessages.get(type).size();
+        return repository.countByType(type);
     }
 
 }
