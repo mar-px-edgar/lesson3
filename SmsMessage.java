@@ -1,9 +1,14 @@
 package com.example.notifications;
 
+import java.util.regex.Pattern;
+
 public class SmsMessage extends Message {
 
     // Константа
     public static final int MAX_LENGTH = 160;
+    private static final Pattern PHONE_NUMBER_PATTERN =
+            Pattern.compile("^+[0-9]$");
+//    private static final int PHONE_NUMBER_LEN = 12;
 
     public SmsMessage(String phoneNumber, String text) {
         super(phoneNumber, text);
@@ -14,21 +19,13 @@ public class SmsMessage extends Message {
     }
 
 
-    private boolean isNumeric() {
-        if (recipient == null || recipient.isEmpty()) { return false; }
-        for (int i = 1; i < recipient.length(); i++) {
-            if (!Character.isDigit(recipient.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
+   @Override
     public boolean isValid() {
         return super.isValid()
-                && recipient.startsWith("+")
-                && isNumeric()
+//                && recipient.length() == PHONE_NUMBER_LEN && sender.length() == PHONE_NUMBER_LEN
+                && PHONE_NUMBER_PATTERN.matcher(recipient).matches()
+                && PHONE_NUMBER_PATTERN.matcher(sender).matches()
+                && !text.isEmpty()
                 && text.length() <= MAX_LENGTH;
     }
 

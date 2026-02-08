@@ -1,9 +1,11 @@
 package com.example.notifications;
 
-public class EmailMessage extends Message {
+import java.util.regex.Pattern;
 
-    // Константа
+public class EmailMessage extends Message {
     public static final String DEFAULT_SUBJECT = "No subject";
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+[.a-z0-9]$");
 
     private String subject;
 
@@ -18,8 +20,11 @@ public class EmailMessage extends Message {
 
     @Override
     public boolean isValid() {
-        // Очень упрощённая проверка
-        return super.isValid() && recipient.contains("@") && sender.contains("@");
+        return super.isValid() && isEmailValid(sender) && isEmailValid(recipient);
+    }
+
+    private static boolean isEmailValid(String email) {
+        return email != null && EMAIL_PATTERN.matcher(email).matches();
     }
 
     @Override
