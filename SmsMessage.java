@@ -7,8 +7,7 @@ public class SmsMessage extends Message {
     // Константа
     public static final int MAX_LENGTH = 160;
     private static final Pattern PHONE_NUMBER_PATTERN =
-            Pattern.compile("^+[0-9]$");
-//    private static final int PHONE_NUMBER_LEN = 12;
+            Pattern.compile("^[+][0-9]+$")
 
     public SmsMessage(String phoneNumber, String text) {
         super(phoneNumber, text);
