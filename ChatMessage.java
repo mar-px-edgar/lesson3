@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class ChatMessage extends Message{
     private static final Pattern USERNAME_PATTERN =
-            Pattern.compile("^[A-Za-z0-9-_]$");
+            Pattern.compile("^[a-zA-Z0-9._-]+$");
     private static final int MAX_TEXT_LENGTH = 100;
 
     public ChatMessage(String userName, String text) {super(userName, text);}
